@@ -14,6 +14,36 @@ namespace project_memory_game
             int [,] matrix = new int[x, x];
             Randomatrix(x, matrix);
             PrintMatrix(matrix);
+            int points = 0;
+            do
+            {
+              
+                Console.WriteLine("choose card1 row");
+                int a = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("choose card1 column");
+                int b = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine($"the card that you choose is: { matrix[a - 1, b - 1]}");
+                Console.WriteLine("choose card2 row");
+
+                int c = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("choose card2 column");
+                int d = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine($"the card that you choose is: { matrix[c - 1, d - 1]}");
+
+                if (matrix[a - 1, b - 1] == matrix[c - 1, d - 1])
+                {
+                    points = points + 1;
+                    Console.WriteLine("you found a pair!!");
+                    matrix[a - 1, b - 1] = 0;
+                    matrix[c - 1, d - 1] = 0;
+
+                }
+            }
+            while (points != (x * x) / 2);
+            Console.WriteLine("very good!!! you found all the pairs!");
+            Console.WriteLine("game over!");
+           
+              
         }
 
         private static void PrintMatrix(int[,] matrix)
