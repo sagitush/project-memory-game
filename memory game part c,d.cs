@@ -11,24 +11,29 @@ namespace project_memory_game
         static void Main(string[] args)
         {
             int x = EnterMatrixSize();
-            int [,] matrix = new int[x, x];
+            int[,] matrix = new int[x, x];
             Randomatrix(x, matrix);
             PrintMatrix(matrix);
             int points1 = 0;
             int points2 = 0;
             
+            
             do
             {
                 int a, b, c, d;
                 points1 = PointsPlayer1(x, matrix, points1, out a, out b, out c, out d);
+
+                if(!GameOver(x,matrix))
+                
                 points2 = PointsPlayer2(x, matrix, points2, out a, out b, out c, out d);
             }
-            while (points1+points2 !=(x * x) / 2);
-            if(points1>points2)
+            while (!GameOver(x,matrix));
+            
+            if (points1 > points2)
             {
                 Console.WriteLine("player1 won!!!");
             }
-            else if (points2>points1)
+            else if (points2 > points1)
             {
                 Console.WriteLine("player2 won!!!");
 
@@ -38,11 +43,33 @@ namespace project_memory_game
                 Console.WriteLine("its a tie");
             }
 
-           
+
             Console.WriteLine("game over!");
-           
-              
+
+
         }
+
+        private static bool GameOver(int x, int[,] matrix)
+        {
+            int sum = 0;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] == 0)
+                    {
+                        sum = sum + 1;
+                    }
+                }
+            }
+            if (sum == x * x)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
         private static int PointsPlayer2(int x, int[,] matrix, int points2, out int a, out int b, out int c, out int d)
         {
             do
@@ -68,7 +95,7 @@ namespace project_memory_game
 
                 points2 = pointsnow(matrix, points2, a, b, c, d);
             }
-            while (matrix[a-1, b-1] == matrix[c-1, d-1]);
+            while (matrix[a-1, b-1] == matrix[c-1, d-1]&&!GameOver(x, matrix));
             return points2;
         }
 
@@ -79,7 +106,7 @@ namespace project_memory_game
             {
 
 
-
+                
                 Console.Write("player1,");
                 ChooseCard1(matrix, out a, out b, x);
                 PrintNow(matrix, a, b);
@@ -98,7 +125,7 @@ namespace project_memory_game
 
                 points1 = pointsnow(matrix, points1, a, b, c, d);
             }
-            while (matrix[a-1, b-1] == matrix[c-1, d-1]);
+            while (matrix[a-1, b-1] == matrix[c-1, d-1]&& !GameOver(x, matrix));
             return points1;
         }
 
